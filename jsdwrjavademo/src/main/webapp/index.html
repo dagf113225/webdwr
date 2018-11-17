@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+  <script type='text/javascript' src='/jsdwrjavademo/dwr/interface/yxl.js'></script>
+  <script type='text/javascript' src='/jsdwrjavademo/dwr/engine.js'></script>
+ <script type='text/javascript' src='/jsdwrjavademo/dwr/util.js'></script>
+</head>
+<body>
+<span id="code"></span>
+</body>
+<script type="text/javascript">
+  var codeObj=document.getElementById("code");
+  
+  yxl.getCode(function(datas){
+	  
+	 // alert(datas);
+	  
+	  codeObj.innerHTML=datas;
+	  
+  });
+
+</script>
+</html>
