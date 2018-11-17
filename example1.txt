@@ -1,0 +1,89 @@
+public class Person {
+ 
+    void speak(int age){
+        System.out.println("我今年"+age+"岁了");
+        age=24; 
+    }
+     
+    public static void main(String[] args) {
+        Person xiaoli=new Person();
+        int age=23;
+        xiaoli.speak(age);
+        System.out.println(age);
+    }
+}
+----------------------------------------------------------------------------------------------------------------------
+
+ 
+class SanWei{
+    int b; // 胸围
+    int w; // 腰围
+    int h; // 腿围
+}
+ 
+public class Person {
+ 
+    void speak(int age,SanWei sanWei){
+        System.out.println("我今年"+age+"岁了，我的三围是："+sanWei.b+","+sanWei.w+","+sanWei.h);
+        age=24; 
+        sanWei.b=80; 
+    }
+     
+    public static void main(String[] args) {
+        Person xiaoli=new Person();
+        int age=23;
+        SanWei sanWei=new SanWei();
+        sanWei.b=90;
+        sanWei.w=60;
+        sanWei.h=90;
+        xiaoli.speak(age,sanWei);
+        System.out.println(age);  
+        System.out.println(sanWei.b);
+    }
+}
+---------------------------------------------------------------------------------------------------------------
+【练习题】01.构造方法与重载 定义一个网络用户类 要处理的信息有用户ID、用户密码、email地址。
+在建立类的实例时 把以上三个信息都作为构造函数的参数输入 其中用户ID和用户密码时必须的 
+缺省的email地址是用户ID加上字符串"@gameschool.com"
+
+【练习题】02.构造方法与重载 创建一个类 为该类定义三个构造函数 分别执行下列操作
+1、传递两个整数值并找出其中较大的一个值 2、传递三个double值并求出其乘积 
+3、传递两个字符串值并检查其是否相同 4、在main方法中测试构造函数的调用
+
+【练习题】03.覆盖、继承 建立一个汽车Auto类 包括轮胎个数 汽车颜色 车身重量、速度等成员变量。
+并通过不同的构造方法创建实例。至少要求 汽车能够加速 减速 停车。 再定义一个小汽车类Car 继承Auto 并添加空调、
+CD等成员变量 覆盖加速 
+----------------------------------------------------------------------------------------------------------------
+js 题目1.
+var f = true;
+if (f === true) {
+  var a = 10;
+}
+
+function fn() {
+  var b = 20;
+  c = 30;
+}
+
+fn();
+console.log(a);
+console.log(b);
+console.log(c);
+
+-------------------------------------------------------------------------------------------------------------------
+js 题目2.
+
+JavaScript中如何检测一个变量是一个String类型？请写出函数实现
+--------------------------------------------------------------------------------------------------------------------
+1.下面程序的运行结果是:
+
+function test(x, y, z) {  
+  alert(test.length);
+  alert(arguments.length);
+  alert(arguments.callee === test);
+  alert(arguments[2]);
+}
+test(10, 20);
+A.2,3,true,0  B.3,3,false,20  C.3,2,true,undefined  D.2,3,false,10 
+
+
