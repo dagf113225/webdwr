@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+  <script type='text/javascript' src='/userdwrproject/dwr/interface/thzm.js'></script>
+  <script type='text/javascript' src='/userdwrproject/dwr/engine.js'></script>
+  <script type='text/javascript' src='/userdwrproject/dwr/util.js'></script>
+</head>
+<body>
+<span  id="code"  ></span>
+</body>
+<script type="text/javascript">
+   
+    let  codeObj= document.getElementById("code");
+    
+    thzm.getUserCode("字母",function(data){
+    	console.log(data);
+    	
+    	//验证码的背景色
+    	codeObj.style.backgroundColor="blue";
+      	codeObj.style.fontStyle="italic";
+      	codeObj.style.display="block";
+    	codeObj.style.width=459+'px';
+    	codeObj.innerText=data;
+    	
+    	
+    	
+    });
+
+</script>
+</html>
