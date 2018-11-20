@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<style  type="text/css">
+			*{
+				margin: 0px;
+				font-family: 楷体;
+				font-size: 16px;
+			}
+			.base{
+				width: 100%;
+				height: 100vh;
+				background-color: #F0F8FF;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			.loginview  {
+				width: 300px;
+				height: 300px;
+				border: 5px  solid  	#98FB98;
+				
+			
+			}
+			form{
+				width: 100%;
+				height: 100%;
+			
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+			}
+			input{
+			
+				width: 80%;
+				height: 100px;
+	            margin: 10px;
+				text-align: center;
+			}
+			
+			input[type="button"]{
+				background-color: aqua;
+				border: none;
+			
+				letter-spacing: 15px;
+			}
+			input[type="button"]:hover{
+				background-color: #9ACD32;
+			}
+			
+			
+			
+		</style>
+</head>
+<body>
+	<div  class="base">
+		<div  class="loginview">
+		    <form>
+			<input  type="text"  id="username"  placeholder="请输入用户姓名:" />
+			<input  type="password"  id="userpwd"  placeholder="请输入用户密码:" />
+		    <input  type="button"  value="用户登录" />
+		    <input  type="submit" value="用户注册" formaction="register.html" />
+		    </form>
+		</div>
+		</div>
+</body>
+  <script type='text/javascript' src='/usercrud/dwr/interface/users.js'></script>
+  <script type='text/javascript' src='/usercrud/dwr/engine.js'></script>
+  <script type='text/javascript' src='/usercrud/dwr/util.js'></script>
+<script type="text/javascript">
+ var btnObj=document.getElementById("loginbtn");
+ var  nameObj= document.getElementById("username");
+ var  pwdObj=document.getElementById("userpwd");
+ 
+ //按钮点击发起登录的请求
+ btnObj.onclick=function()
+ {
+	 
+	 var nameValue=nameObj.value;
+	 var  pwdValue=pwdObj.value;
+	 console.log(nameValue+","+pwdValue);
+	 
+	 //js对象直接调用java类的业务方法
+	 users.checkUserLogin(nameValue,pwdValue,function(datas){
+		 
+		 console.log(datas);
+		 
+		 if(datas=="成功")
+		 {
+			 window.location.href="users/users_main.html";
+		 }
+		 else
+		 {
+			 window.alert("用户登录失败,请检查!");
+		 }
+		 
+		 
+	 });
+ }
+
+</script>
+</html>

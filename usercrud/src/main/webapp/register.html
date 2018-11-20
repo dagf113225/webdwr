@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	<center>
+		<form>
+		<input  type="text"  id="regname"  placeholder="请输入用户注册名:" /><span id="msg"></span><p>
+		<input  type="password"  id="regpwd" placeholder="请输入用户密码:" /><p></p>
+		
+		<input  type="submit"  value="用户注册" />
+		</form>
+			</center>
+	</body>
+	 <script type='text/javascript' src='/usercrud/dwr/interface/users.js'></script>
+  <script type='text/javascript' src='/usercrud/dwr/engine.js'></script>
+  <script type='text/javascript' src='/usercrud/dwr/util.js'></script>
+	<script type="text/javascript">
+	   var nameObj=document.getElementById("regname");
+	   var  msgObj=document.getElementById("msg");
+	   //失去焦点事件
+	   nameObj.onblur=function()
+	   {
+		   users.checkUserName(this.value,function(datas){
+			   
+			   console.log(datas);
+			   
+			   if(datas=="fail")
+			   {
+				   msgObj.innerText="不可以注册,已经使用";
+				   msgObj.style.color="red";
+				}
+			   else
+				 {
+				   msgObj.innerText="恭喜你可以注册";
+				   msgObj.style.color="green";
+				  }
+			   
+			   
+			   
+		   });
+	   }
+	</script>
+</html>
