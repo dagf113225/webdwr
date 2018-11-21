@@ -12,6 +12,8 @@ public class UserAction {
 		
 		//产生db类对象
 		DB db  = new DB();
+		
+		
 		boolean  flag=db.checkLogin(name, pwd);
 		if(flag)
 		{
@@ -39,6 +41,24 @@ public class UserAction {
 		}
 		
 		
+	}
+	
+	//生成动态标题菜单
+	public  String[]   getMenuDatas()
+	{
+		System.out.println("UserAction  is  getMenuDatas  start... ");
+		
+		
+		DB  db  = new DB();
+		
+		String[]  menuDatas=db.getDBMenu();
+		
+		for(String datas:menuDatas)
+		{
+			System.out.println(datas);
+		}
+	
+		return  menuDatas;
 	}
 
 }

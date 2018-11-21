@@ -4,7 +4,12 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
-
+  <!-- 配置默认欢迎页面 -->
+  <welcome-file-list>
+     <welcome-file>menu.html</welcome-file>
+  </welcome-file-list>
+  
+  
   <servlet>
   <servlet-name>dwr-invoker</servlet-name>
   <servlet-class>uk.ltd.getahead.dwr.DWRServlet</servlet-class>
