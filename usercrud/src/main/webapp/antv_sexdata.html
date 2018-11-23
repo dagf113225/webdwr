@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+  <div id="categoryview"></div>
+</body>
+ <script src="https://a.alipayobjects.com/g/datavis/g2/2.3.13/g2.js"></script>
+ <script type='text/javascript' src='/usercrud/dwr/interface/users.js'></script>
+  <script type='text/javascript' src='/usercrud/dwr/engine.js'></script>
+  <script type='text/javascript' src='/usercrud/dwr/util.js'></script>
+  <script type="text/javascript">
+  
+  //注意data是object
+ /** var data = [
+      {time: "2013", amount: 120},
+      {time: "2014", amount: 240},
+      {time: "2015", amount: 300},
+      {time: "2016", amount: 180},
+      {time: "2017", amount: 150},
+  ];
+  console.log(typeof  data);**/
+
+  users.getAntvGroupSex(function(datas){
+	  
+	   console.log(datas);
+	   console.log(typeof  datas);
+	   
+	   //把一个字符串变成对象
+	  var  sexDatas=JSON.parse(datas);
+	   console.log(typeof  sexDatas);
+	   
+	   // 1.创建图表对象
+       var chart = new G2.Chart({
+           id: "categoryview",
+           forceFit: true,//宽度自适应，也可以直接调整
+           height: 280,
+       });
+	   
+       // 2.载入数据源
+       chart.source(sexDatas, {
+    	   sex: {
+               alias: "性别" //定义别名
+           },
+           number: {
+               alias: "人数"
+           }
+       });
+       
+       // 绘制图像,这里time*amount也就是time是X轴,如果是amount*time,那么amount就是X轴
+       // 这里的interval是几何标记,也就是你可以通过设置几何标记从而确定你要展示的图标类型
+       chart.interval().position("sex * number").color("sex");
+       //渲染图像到网页
+       chart.render();
+
+
+
+  });
+  </script>
+</html>
