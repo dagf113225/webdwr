@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 public class DB {
@@ -124,6 +125,90 @@ public class DB {
 		}
 
 		return datas;
+	}
+
+	// 查询班级的名称和id
+	public Object[][] getClassNames() {
+		String sql = "SELECT  cid,cname  FROM  t_classes";
+
+		Object[][] datas = null;
+
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+
+			ResultSet rs = pstmt.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+
+			int column = rsmd.getColumnCount();
+
+			int count = 0;
+
+			while (rs.next()) {
+				count++;
+			}
+
+			// 完成二维数组创建，实例化
+			datas = new Object[count][column];
+
+			// 结果集回到第一行
+			rs.beforeFirst();
+
+			int row = 0;
+
+			while (rs.next())// 控制的是行
+			{
+				for (int i = 1; i <=column; i++)// 控制的是列
+				{
+					datas[row][i - 1] = rs.getObject(i);
+				}
+				row++;
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return datas;
+
+	}
+	
+	//传入的是班级的编号得到学生名称
+	public  String[]    getClassToStuName(String id)
+	{
+		String sql="SELECT  sname  FROM  t_stus  WHERE  scid=?";
+		
+	     String[]  names=  null;
+		try {
+			PreparedStatement pstmt= conn.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			ResultSet  rs=pstmt.executeQuery();
+			
+			int count=0;
+			
+			while(rs.next())
+			{
+				count++;
+			}
+			names  = new String[count];
+			
+			rs.beforeFirst();
+			
+			int  row=0;
+			while(rs.next())
+			{
+				names[row++]=rs.getString(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return names;
+	
+		
 	}
 
 }

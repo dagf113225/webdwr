@@ -60,5 +60,32 @@ public class UserAction {
 	
 		return  menuDatas;
 	}
+	
+	//生成下拉选择框的数据
+	public  Object[][]  getClassNames()
+	{
+		System.out.println("UserAction  is  getClassNames  start... ");
+		
+		DB db  = new DB();
+		
+		Object[][]  datas=db.getClassNames();
+		
+		return  datas;
+	}
+	
+	//根据班级的编号获取这个班级的学生的姓名
+	public  String[]   getClassBindStus(String id)
+	{
+		System.out.println("UserAction  is  getClassBindStus  start... ");
+	
+		
+		DB db  = new DB();
+		String[] names=db.getClassToStuName(id);
+	     
+		return names;
+	
+	}
+	
+	
 
 }

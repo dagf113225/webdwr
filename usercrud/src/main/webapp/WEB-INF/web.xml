@@ -6,7 +6,7 @@
   <display-name>Archetype Created Web Application</display-name>
   <!-- 配置默认欢迎页面 -->
   <welcome-file-list>
-     <welcome-file>menu.html</welcome-file>
+     <welcome-file>classes.html</welcome-file>
   </welcome-file-list>
   
   

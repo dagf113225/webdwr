@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+   #stunames{
+   width: 100%;
+   height: 100vh;
+   border: 1px  solid  green; 
+   
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   }
+   
+   .cell{
+      width: 100px;
+      height: 50px;
+      border: 5px  solid   green; 
+      margin: 5px;
+      border-radius: 5px;
+        display: flex;
+   justify-content: center;
+   align-items: center;
+   }
+</style>
+</head>
+<body>
+<select  id="classesNames">
+<option  value="-1">请选择班级的名称:</option>
+</select>
+<hr></hr>
+<div  id="stunames">
+</div>
+</body>
+  <script type='text/javascript' src='/usercrud/dwr/interface/users.js'></script>
+  <script type='text/javascript' src='/usercrud/dwr/engine.js'></script>
+  <script type='text/javascript' src='/usercrud/dwr/util.js'></script>
+  <script type="text/javascript">
+  
+    var  selectObj=document.getElementById("classesNames");
+    var  divObj=document.getElementById("stunames");
+  users.getClassNames(function(datas){
+	  //先调试页面数据输出
+	  console.log(datas);
+	  datas.forEach(function(value,index){
+		 
+		 console.log(value+"--->"+index);
+		 //1.创建元素
+		 var optionObj=document.createElement("option");
+		 
+		 //2.探知类型
+		 console.log( typeof value.toString());
+		 
+		 //3.分割数据
+		 var arrs=value.toString().split(",");
+		 
+		 console.log(arrs[0],arrs[1]);
+		 
+		 optionObj.value=arrs[0];
+		// optionObj.setAttribute("value",arrs[0]);
+		 
+		 optionObj.innerText= arrs[1];
+		 
+		 selectObj.appendChild(optionObj);
+		
+	  });
+	    
+  });
+  
+  //下拉选择框的改变值的事件 onchange
+  selectObj.onchange=function()
+  {
+	  
+	  var selectValue=this.value;
+	  console.log("选择的值为:"+selectValue);
+	  //每次请求加载新数据，都清空
+	  divObj.innerHTML="";
+	  users.getClassBindStus(selectValue,function(datas){
+		  
+		  console.log(datas);
+		  
+		  datas.forEach(function(value,index){
+			  
+			 var  childDiv=document.createElement("div");
+			 
+			 childDiv.innerText=value;
+			 if(index%2==0)
+			  {
+				 childDiv.style.backgroundColor="#ccff99";
+			  }
+			 else
+			  {
+				 childDiv.style.backgroundColor="#9bbaacc";
+			  }
+			 
+			 childDiv.className="cell";
+			
+			 //设置 div的点击事件
+			 childDiv.setAttribute("onclick","playAudioName('"+value+"')");
+			 
+			 divObj.appendChild(childDiv);
+			  
+		  })
+		  
+		  
+	  });
+	  
+	  
+	  
+  };
+  
+  
+  function playAudioName(name)
+  {
+	  alert(name);
+	  playName(name,2000)
+	  
+  }
+  
+  function  playName(name,time)
+  {
+	
+	  setTimeout(function(){
+		 var audioObj=document.createElement("audio");
+		 audioObj.src="http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=1&text="+name;
+		 audioObj.play();
+	  },time);
+  }
+  </script>
+
+</html>
