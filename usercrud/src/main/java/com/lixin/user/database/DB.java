@@ -157,7 +157,7 @@ public class DB {
 
 			while (rs.next())// 控制的是行
 			{
-				for (int i = 1; i <=column; i++)// 控制的是列
+				for (int i = 1; i <= column; i++)// 控制的是列
 				{
 					datas[row][i - 1] = rs.getObject(i);
 				}
@@ -172,50 +172,44 @@ public class DB {
 		return datas;
 
 	}
-	
-	//传入的是班级的编号得到学生名称
-	public  String[]    getClassToStuName(String id)
-	{
-		String sql="SELECT  sname  FROM  t_stus  WHERE  scid=?";
-		
-	     String[]  names=  null;
+
+	// 传入的是班级的编号得到学生名称
+	public String[] getClassToStuName(String id) {
+		String sql = "SELECT  sname  FROM  t_stus  WHERE  scid=?";
+
+		String[] names = null;
 		try {
-			PreparedStatement pstmt= conn.prepareStatement(sql);
-			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+
 			pstmt.setString(1, id);
-			
-			ResultSet  rs=pstmt.executeQuery();
-			
-			int count=0;
-			
-			while(rs.next())
-			{
+
+			ResultSet rs = pstmt.executeQuery();
+
+			int count = 0;
+
+			while (rs.next()) {
 				count++;
 			}
-			names  = new String[count];
-			
+			names = new String[count];
+
 			rs.beforeFirst();
-			
-			int  row=0;
-			while(rs.next())
-			{
-				names[row++]=rs.getString(1);
+
+			int row = 0;
+			while (rs.next()) {
+				names[row++] = rs.getString(1);
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return names;
-	
-		
+
 	}
-	
-	public  Object[][]  getGroupSex()
-	{
-		String sql="SELECT ssex,COUNT(*) FROM t_stus  GROUP  BY ssex";
-		
-		
+
+	public Object[][] getGroupSex() {
+		String sql = "SELECT ssex,COUNT(*) FROM t_stus  GROUP  BY ssex";
+
 		Object[][] datas = null;
 
 		try {
@@ -242,7 +236,7 @@ public class DB {
 
 			while (rs.next())// 控制的是行
 			{
-				for (int i = 1; i <=column; i++)// 控制的是列
+				for (int i = 1; i <= column; i++)// 控制的是列
 				{
 					datas[row][i - 1] = rs.getObject(i);
 				}
@@ -255,10 +249,51 @@ public class DB {
 		}
 
 		return datas;
-		
-		
-		
-		
+
+	}
+
+	public Object[][] getStuAllInfo() {
+		String sql = "SELECT   sname,ssex,sphone,sqq,stuimg,studesc FROM  t_stus";
+
+		Object[][] datas = null;
+
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+
+			ResultSet rs = pstmt.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+
+			int column = rsmd.getColumnCount();
+
+			int count = 0;
+
+			while (rs.next()) {
+				count++;
+			}
+
+			// 完成二维数组创建，实例化
+			datas = new Object[count][column];
+
+			// 结果集回到第一行
+			rs.beforeFirst();
+
+			int row = 0;
+
+			while (rs.next())// 控制的是行
+			{
+				for (int i = 0; i < column; i++)// 控制的是列
+				{
+					datas[row][i] = rs.getObject(i + 1);
+				}
+				row++;
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return datas;
 	}
 
 }

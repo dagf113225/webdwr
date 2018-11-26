@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+.base {
+	width: 100%;
+	height: 100vh;
+	background: #ca90fc;
+	display: flex;
+	flex-wrap: wrap;
+
+	
+}
+
+.box {
+	margin-left: 16px;
+
+	height: 100px;
+	width: 180px;
+	border: 1px solid #000;
+	font-size: 15px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	
+}
+ .popup {
+            display:none;
+            position: absolute;
+            top:-10px;
+            left:50%;
+            height: 50px;
+            width: 100px;
+            background:RGBa(53,70,255,0.4);
+            color:#fff;
+            font-size:15px;
+            z-index:999999;
+        }
+</style>
+</head>
+<body>
+	<div class="base"></div>
+</body>
+<script type='text/javascript' src='/usercrud/dwr/interface/admins.js'></script>
+<script type='text/javascript' src='/usercrud/dwr/engine.js'></script>
+<script type='text/javascript' src='/usercrud/dwr/util.js'></script>
+<script type="text/javascript">
+
+  var  fdivObj=document.getElementsByClassName("base")[0];
+  admins.getStuAllInfo(function(datas){
+	  
+	 console.log(datas); 
+	 
+	 datas.forEach(function(values,index){
+		 
+		 var  divObj= document.createElement("div");
+		 divObj.className="box";
+		 divObj.innerText=values[0];
+		
+		 
+		 var  imgObj= document.createElement("img");
+		 imgObj.setAttribute("src","."+values[4]);
+		 divObj.appendChild(imgObj);
+		 
+		 //divObj.insertBefore(imgObj,divObj);
+		 
+		  var  popupObj= document.createElement("div");
+		  popupObj.className="popup";
+		  popupObj.style.fontSize="6px";
+		  popupObj.setAttribute("id",index);
+		  divObj.appendChild(popupObj);
+		  popupObj.innerText="性别:"+values[1]+"电话:"+values[2]+"邮箱:"+values[3];
+		  divObj.setAttribute("onmouseover","divover('"+index+"')");
+		  divObj.setAttribute("onmouseout","divout('"+index+"')");
+	
+		 fdivObj.appendChild(divObj);
+		 
+		 
+		 
+		 
+	 });
+  });
+  
+  function divover(id)
+  {
+	  console.log(id);
+	  
+	  var popupDiv=document.getElementById(id);
+	  
+	  console.log("------------>"+popupDiv.style.display);
+	  popupDiv.style.display="block";
+	  
+  }
+  
+  function divout(id)
+  {
+	  console.log(id);
+	  
+	  var popupDiv=document.getElementById(id);
+	  
+	  console.log("------------>"+popupDiv.style.display);
+	  popupDiv.style.display="none";
+	  
+  }
+  </script>
+</html>

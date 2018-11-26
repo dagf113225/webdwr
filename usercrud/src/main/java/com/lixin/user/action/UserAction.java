@@ -89,7 +89,7 @@ public class UserAction {
 		 * 女3 
 		 * 男7
 		 */
-		// [{},{},{}]
+		// [{键:值},{键:值},{键:值}]
 		// json数据格式[] json数组,{}json对象{键:值}
 		// 数据容器倒换
 		JSONArray array = new JSONArray();
@@ -98,9 +98,11 @@ public class UserAction {
 
 			// 在这里创建JSONObject对象--->键值
 			JSONObject jsonObj = new JSONObject();
+			
 			jsonObj.put("sex", datas[i][0]);
 			jsonObj.put("number", datas[i][1]);
 			
+			//把每一个json对象放入到json数组中
 			array.add(jsonObj);
 
 		}

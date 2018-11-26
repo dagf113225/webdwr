@@ -8,5 +8,9 @@
     <create creator="new" javascript="users" >
       <param name="class" value="com.lixin.user.action.UserAction"/>
     </create>
+    
+      <create creator="new" javascript="admins" >
+      <param name="class" value="com.lixin.admin.action.AdminAction"/>
+    </create>
   </allow>
 </dwr>
