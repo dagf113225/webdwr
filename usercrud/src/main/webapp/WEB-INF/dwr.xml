@@ -12,5 +12,8 @@
       <create creator="new" javascript="admins" >
       <param name="class" value="com.lixin.admin.action.AdminAction"/>
     </create>
+        
+     <convert converter="bean" match="com.lixin.model.CMenu"/>
+     <convert converter="bean" match="com.lixin.model.FMenu"/>
   </allow>
 </dwr>

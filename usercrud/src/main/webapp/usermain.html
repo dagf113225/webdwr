@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style  type="text/css">
+
+*{
+   margin: 0px;
+   padding: 0px;
+   overflow-x:hidden; 
+}
+.base{
+
+  width: 100%;
+  height: 100vh;
+  background-color: #ca9f4b;
+
+}
+.top{
+  width: 100%;
+  height: 16%;
+  background-color: #9fc04d;
+}
+.content{
+ width: 100%;
+  height: 84%;
+  font-family: 楷体;
+  font-size: 17px;
+  display: flex;
+}
+.menu{
+
+  width: 18%;
+  height: 100%;
+  background-color: RGBa(190,100,100,0.2);
+}
+.maincontent{
+  width: 82%;
+  height: 100%;
+  background-color: RGBa(200,150,120,0.4);
+}
+.fitem{
+  border: 1px  solid   black;
+  text-align: center;
+  color:white;
+  font-weight: bold;
+  cursor: pointer;
+  
+
+  
+}
+.fitem:hover{
+
+  background-color: RGBa(100,60,30,0.6);
+}
+.citem{
+    display: none;
+   text-align: center;
+
+}
+.childcss{
+ border:1px solid  green;
+}
+.childcss:hover{
+  background-color: RGBa(0,60,30,0.3);
+}
+a{
+  text-decoration: none;
+  color:black;
+}
+</style>
+</head>
+<body>
+<div class="base">
+  <div  class="top"></div>
+  <div class="content">
+    <div  class="menu">
+    
+    
+    </div>
+    <div class="maincontent">
+      <iframe name="mainview"  width="100%"  height="100%" ></iframe>
+    </div>
+  </div>
+</div>
+
+</body>
+  <script type='text/javascript' src='/usercrud/dwr/interface/users.js'></script>
+  <script type='text/javascript' src='/usercrud/dwr/engine.js'></script>
+  <script type='text/javascript' src='/usercrud/dwr/util.js'></script>
+  <script type="text/javascript">
+  
+ var menuObjs=document.getElementsByClassName("menu")[0];
+ 
+     users.getMainMenuDatas(function(datas){
+    	 
+    	 console.log(datas);
+    	 
+    	 datas.forEach(function(value,index){
+    		 
+    		 console.log("--->"+value);
+    		 
+    		 //最外面的div
+    		  var fdiv= document.createElement("div");
+    		
+    		 
+    		 //再创建一个div
+    		 var  onediv =document.createElement("div");
+    		 onediv.className="fitem";
+    		 onediv.innerText=value["fname"];
+    		 fdiv.appendChild(onediv);
+    		 onediv.setAttribute("onclick","controlerMent('"+index+"')");
+    		 
+    		 //再创建一个div
+    		 var  twodiv =document.createElement("div");
+    		 twodiv.setAttribute("id",index);
+    		 twodiv.className="citem";
+    		 fdiv.appendChild(twodiv);
+    		 
+    		 
+    		 value["cmenus"].forEach(function(val,ind){
+    			 
+    			 var childdiv= document.createElement("div");
+    			 childdiv.className="childcss";
+    			 //childdiv.innerText=val["cname"];
+    			  var aobj= document.createElement("a");
+    			  aobj.innerText=val["cname"];
+    			  aobj.setAttribute("href","login.html");
+    			  aobj.setAttribute("target","mainview");
+    			  childdiv.appendChild(aobj);
+    			  
+    			  
+    			  twodiv.appendChild(childdiv);
+    		 });
+    		 
+    		 menuObjs.appendChild(fdiv);
+    	 });
+    	
+    	 
+     });
+    
+     function controlerMent(index)
+     {
+    	 console.log("---->"+index);
+    	 
+    	var  currentDivObj= document.getElementById(index);
+    	console.log("-->"+currentDivObj.style.display)
+    	if(currentDivObj.style.display=="")
+    	{
+    		console.log("展开");
+    		currentDivObj.style.display="block";
+    	}
+    	else
+    	{
+    		console.log("收缩");
+    		currentDivObj.style.display="";
+    	}
+     }
+  </script>
+</html>

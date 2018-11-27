@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+import com.lixin.model.CMenu;
+import com.lixin.model.FMenu;
+
 public class DB {
 
 	Connection conn;
@@ -294,6 +297,78 @@ public class DB {
 		}
 
 		return datas;
+	}
+
+	public FMenu[] getMenuDatas() {
+		String sql = "SELECT  *  FROM  t_fmenu";
+
+		FMenu[]   fmenus = null;
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet  rs=pstmt.executeQuery();
+			
+			
+			int  count  =0;
+			while(rs.next())
+			{
+				count++;
+			}
+			
+			fmenus = new FMenu[count];
+			
+			rs.beforeFirst();
+			
+			int  row = 0;
+			while(rs.next())
+			{
+				FMenu  fm  = new FMenu();
+				fm.setFid(rs.getInt(1));
+				fm.setFname(rs.getString(2));
+				fm.setCmenus(getCmenuDatas(rs.getInt(1)));
+				fmenus[row++]=fm;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return fmenus;
+	}
+	
+	public CMenu[]  getCmenuDatas(int id)
+	{
+		String sql="SELECT  cid ,cname,fcid   FROM  t_cmenu   WHERE fcid=?";
+		CMenu[]  cmenus = null;
+		try {
+			PreparedStatement  pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			
+			ResultSet  rs=pstmt.executeQuery();
+			
+			int  count=0;
+			
+			while(rs.next())
+			{
+				count++;
+			}
+			cmenus = new CMenu[count];
+			rs.beforeFirst();
+			int  row=0;
+			while(rs.next())
+			{
+				CMenu  cmenu  =new CMenu();
+				cmenu.setCid(rs.getInt(1));
+				cmenu.setCname(rs.getString(2));
+				cmenu.setFcid(rs.getShort(3));
+				
+				cmenus[row++]=cmenu;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cmenus;
 	}
 
 }

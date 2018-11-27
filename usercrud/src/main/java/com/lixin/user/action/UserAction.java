@@ -1,5 +1,6 @@
 package com.lixin.user.action;
 
+import com.lixin.model.FMenu;
 import com.lixin.user.database.DB;
 
 import net.sf.json.JSONArray;
@@ -86,8 +87,7 @@ public class UserAction {
 
 		// [[],[],[]]
 		/**
-		 * 女3 
-		 * 男7
+		 * 女3 男7
 		 */
 		// [{键:值},{键:值},{键:值}]
 		// json数据格式[] json数组,{}json对象{键:值}
@@ -98,11 +98,11 @@ public class UserAction {
 
 			// 在这里创建JSONObject对象--->键值
 			JSONObject jsonObj = new JSONObject();
-			
+
 			jsonObj.put("sex", datas[i][0]);
 			jsonObj.put("number", datas[i][1]);
-			
-			//把每一个json对象放入到json数组中
+
+			// 把每一个json对象放入到json数组中
 			array.add(jsonObj);
 
 		}
@@ -110,6 +110,15 @@ public class UserAction {
 
 		return array.toString();
 
+	}
+
+	public FMenu[] getMainMenuDatas() {
+		System.out.println("UserAction  is  getMenuDatas  start... ");
+
+		DB db = new DB();
+		FMenu[] fmenus = db.getMenuDatas();
+
+		return fmenus;
 	}
 
 }
