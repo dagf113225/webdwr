@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+import com.lixin.interfaces.FiexdValue;
 import com.lixin.model.CMenu;
 import com.lixin.model.FMenu;
 
@@ -302,31 +303,28 @@ public class DB {
 	public FMenu[] getMenuDatas() {
 		String sql = "SELECT  *  FROM  t_fmenu";
 
-		FMenu[]   fmenus = null;
-		
+		FMenu[] fmenus = null;
+
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			ResultSet  rs=pstmt.executeQuery();
-			
-			
-			int  count  =0;
-			while(rs.next())
-			{
+			ResultSet rs = pstmt.executeQuery();
+
+			int count = 0;
+			while (rs.next()) {
 				count++;
 			}
-			
+
 			fmenus = new FMenu[count];
-			
+
 			rs.beforeFirst();
-			
-			int  row = 0;
-			while(rs.next())
-			{
-				FMenu  fm  = new FMenu();
+
+			int row = 0;
+			while (rs.next()) {
+				FMenu fm = new FMenu();
 				fm.setFid(rs.getInt(1));
 				fm.setFname(rs.getString(2));
 				fm.setCmenus(getCmenuDatas(rs.getInt(1)));
-				fmenus[row++]=fm;
+				fmenus[row++] = fm;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -335,40 +333,115 @@ public class DB {
 
 		return fmenus;
 	}
-	
-	public CMenu[]  getCmenuDatas(int id)
-	{
-		String sql="SELECT  cid ,cname,fcid   FROM  t_cmenu   WHERE fcid=?";
-		CMenu[]  cmenus = null;
+
+	public CMenu[] getCmenuDatas(int id) {
+		String sql = "SELECT  cid ,cname,fcid,url   FROM  t_cmenu   WHERE fcid=?";
+		CMenu[] cmenus = null;
 		try {
-			PreparedStatement  pstmt=conn.prepareStatement(sql);
+			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
-			
-			ResultSet  rs=pstmt.executeQuery();
-			
-			int  count=0;
-			
-			while(rs.next())
-			{
+
+			ResultSet rs = pstmt.executeQuery();
+
+			int count = 0;
+
+			while (rs.next()) {
 				count++;
 			}
 			cmenus = new CMenu[count];
 			rs.beforeFirst();
-			int  row=0;
-			while(rs.next())
-			{
-				CMenu  cmenu  =new CMenu();
+			int row = 0;
+			while (rs.next()) {
+				CMenu cmenu = new CMenu();
 				cmenu.setCid(rs.getInt(1));
 				cmenu.setCname(rs.getString(2));
 				cmenu.setFcid(rs.getShort(3));
-				
-				cmenus[row++]=cmenu;
+
+				String url = rs.getString(4);
+
+				if ("".equals(url) || null == url) {
+					cmenu.setUrl("default.html");
+				} else {
+					cmenu.setUrl(url);
+				}
+
+				cmenus[row++] = cmenu;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return cmenus;
+	}
+
+	public int getSumCount() {
+		String sql = "SELECT  COUNT(*) FROM  t_stus";
+
+		int count = 0;
+
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				count = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return count;
+
+	}
+
+	public Object[][] getTablePageDatas(int PageNum) {
+		String sql = "SELECT  sname,ssex,sphone,sqq,stuimg  FROM t_stus LIMIT  ?,?";
+		Object[][] datas = null;
+
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, (PageNum - 1) * FiexdValue.PAGE_NUMBER);
+			pstmt.setInt(2, FiexdValue.PAGE_NUMBER);
+
+			ResultSet rs = pstmt.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+
+			int column = rsmd.getColumnCount();
+
+			int count = 0;
+
+			while (rs.next()) {
+				count++;
+			}
+
+			// 完成二维数组创建，实例化
+			datas = new Object[count][column];
+
+			// 结果集回到第一行
+			rs.beforeFirst();
+
+			int row = 0;
+
+			while (rs.next())// 控制的是行
+			{
+				for (int i = 0; i < column; i++)// 控制的是列
+				{
+					datas[row][i] = rs.getObject(i + 1);
+				}
+				row++;
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return datas;
+
 	}
 
 }

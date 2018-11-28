@@ -1,5 +1,6 @@
 package com.lixin.user.action;
 
+import com.lixin.interfaces.FiexdValue;
 import com.lixin.model.FMenu;
 import com.lixin.user.database.DB;
 
@@ -119,6 +120,31 @@ public class UserAction {
 		FMenu[] fmenus = db.getMenuDatas();
 
 		return fmenus;
+	}
+	public Object[][]  getPageTableData(int  pageNum)
+	{
+		System.out.println("UserAction  is  getPageTableData  start... ");
+		DB db = new DB();
+		
+		Object[][]  datas=db.getTablePageDatas(pageNum);
+		return datas;
+	}
+	
+	public  int[]   getTableInfo()
+	{
+		System.out.println("UserAction  is  getPageTableData  start... ");
+		
+		DB  db = new DB();
+		//总共多少条
+		int  count=db.getSumCount();
+		
+		//三元运算符 
+		int  pageSize=count%FiexdValue.PAGE_NUMBER==0?count/FiexdValue.PAGE_NUMBER:count/FiexdValue.PAGE_NUMBER+1;
+		
+		int[]  datas = {count,pageSize};
+		
+		return datas;
+	
 	}
 
 }

@@ -126,7 +126,17 @@ a{
     			 //childdiv.innerText=val["cname"];
     			  var aobj= document.createElement("a");
     			  aobj.innerText=val["cname"];
-    			  aobj.setAttribute("href","login.html");
+    			  var urlValue=val["url"];
+    			  if(urlValue.length>12)
+    			  {
+    				  aobj.setAttribute("href","."+val["url"]);
+    				  
+    			  }
+    			  else
+    			  {
+    				  aobj.setAttribute("href",val["url"]);
+    			  }
+    			
     			  aobj.setAttribute("target","mainview");
     			  childdiv.appendChild(aobj);
     			  

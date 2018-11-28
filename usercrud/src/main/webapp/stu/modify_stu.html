@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+.hrefview {
+	display: flex;
+	justify-content: center;
+}
+
+a,select {
+	margin-left: 20px;
+}
+</style>
+</head>
+<body>
+	<center>
+		<h1>这是学生信息</h1>
+		<table border="1">
+			<tr>
+				<th>姓名</th>
+				<th>性别</th>
+				<th>手机号</th>
+				<th>QQ号</th>
+				<th>头像</th>
+			</tr>
+
+			<tbody id="tableview">
+
+
+			</tbody>
+		</table>
+	</center>
+	<hr>
+	<div class="hrefview">
+		<a>首页</a> <a>上一页</a><select  id="tableIndex">
+		 <option  value="-1">请选择页数:</option>
+		</select><a>下一页</a> <a>尾页</a>
+	</div>
+</body>
+<script type='text/javascript' src='/usercrud/dwr/interface/users.js'></script>
+<script type='text/javascript' src='/usercrud/dwr/engine.js'></script>
+<script type='text/javascript' src='/usercrud/dwr/util.js'></script>
+<script type="text/javascript">
+
+  var  tableObj=document.getElementById("tableview");
+  var  selectObj=document.getElementById("tableIndex");
+   var  aObjs=document.getElementsByTagName("a");
+   
+   
+   
+   //当前页数
+   var  currentNum=1;
+   
+   //总页数
+   var  sumPage=0;
+   
+   //总条数
+   var  sumCount=0;
+   
+   if(currentNum>=1)
+   {
+	   users.getTableInfo(function(datas){
+		   
+		  console.log(datas); 
+		  sumCount=datas[0];
+		  sumPage=datas[1];
+		  
+		  for(var i=0;i<sumPage;i++)
+		  {
+			  
+			  var optionObj=document.createElement("option");
+			  optionObj.setAttribute("value",i+1);
+			  optionObj.innerText="第"+(i+1)+"页";
+			  
+			  selectObj.appendChild(optionObj);
+		  }
+		  
+		  
+		  
+	   });
+   }   
+   
+   //下拉选择框事件
+   selectObj.onchange=function()
+   {
+	   if(this.value>0)
+	   {
+		   getPageDatas(this.value);
+	   }
+	   
+   }
+   for(var i=0;i<aObjs.length;i++)
+   {
+	   aObjs[i].onclick=function()
+	   {
+		   var clcikValue=this.innerText;
+		   console.log("你点击的是-->"+clcikValue);
+		   switch(clcikValue)
+		   {
+		      case "首页":
+		    	 // console.log(currentNum);
+		    	  first();
+		    	  break;
+              case "上一页":
+            	 // console.log(currentNum-1);
+            	 prov();
+		    	  break;
+              case "下一页":
+            	  //console.log(currentNum+1);
+            	  next();
+		    	  break;
+              case "尾页":
+            	  //console.log("尾页");
+            	  last();
+		    	  break;
+		   
+		   }
+		  
+	   }
+	   
+	   
+   }
+   
+   //首页
+   function  first()
+   {
+	   currentNum=1;
+	   getPageDatas(currentNum);
+	   connSelect(currentNum);
+   }
+   //下一页
+   function  next()
+   {
+	   
+	   if(currentNum<sumPage)
+	   {
+		   currentNum=currentNum+1;
+		   console.log("下一页-->"+currentNum);
+		   getPageDatas(currentNum);
+		   connSelect(currentNum);
+	   }
+	
+   }
+   //上一页
+   function prov()
+   {
+	   if(currentNum>1)
+	   {
+		   currentNum=currentNum-1;
+		   console.log("上一页-->"+currentNum);
+		   getPageDatas(currentNum);
+		   connSelect(currentNum);
+	   }
+	  
+   }
+   //尾页
+   function  last()
+   {
+	   currentNum=sumPage;
+	   getPageDatas(currentNum);
+	   connSelect(currentNum);
+   }
+   
+   //联动下拉选择框
+   function  connSelect(currentNum)
+   {
+	   selectObj.selectedIndex=currentNum;
+   }
+
+  
+  //这是分页关键方法
+  function  getPageDatas(currentNum)
+  {
+	  
+	  tableObj.innerHTML="";
+	  users.getPageTableData(currentNum,function(datas){
+		  
+		  console.log(datas);
+		  
+		  //数据遍历
+		  datas.forEach(function(value,index){
+			  console.log(value);
+			  //创建行
+			  var  trObj=document.createElement("tr");
+			  
+			  
+			  value.forEach(function(val,ind){
+				  
+				  //创建td
+				  var  tdObj=document.createElement("td");
+				  
+				  ///["陈赵梅", "女", "13913321089", "4561231@qq.com", "/imgs/a1.png"]
+				  if(val.substring(val.lastIndexOf("."))==".png")
+				  {
+					  var  imgObj=document.createElement("img");
+					  imgObj.setAttribute("src",".."+val);
+					  tdObj.appendChild(imgObj);
+				  }
+				  else
+				  {
+					  tdObj.innerText=val;
+				  }
+				
+				  
+				  
+				  trObj.appendChild(tdObj);
+			  })
+			  
+			  tableObj.appendChild(trObj);
+			  
+		  });
+		  
+	  });
+  }
+ 
+  getPageDatas(currentNum);
+  
+
+</script>
+</html>

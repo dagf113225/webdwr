@@ -23,6 +23,16 @@ public class CMenu {
 	private String cname;
 	
 	private  int  fcid;
+	
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	private String  url;
 
 	public int getFcid() {
 		return fcid;
